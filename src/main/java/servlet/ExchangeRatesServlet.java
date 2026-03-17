@@ -86,6 +86,9 @@ public class ExchangeRatesServlet extends HttpServlet {
             // 7. Ошибка 500
             ServletUtil.sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                     "Ошибка базы данных");
+//            e.printStackTrace(); // Напечатает полный путь ошибки в консоль/логи Tomcat
+//            ServletUtil.sendError(resp, 500, "DEBUG: "
+//                    + e.getClass().getName() + " - " + e.getMessage());
         }
     }
 

@@ -1,5 +1,6 @@
 package dao;
 
+import exception.ExchangeRateAlreadyExistsException;
 import model.Currency;
 import model.ExchangeRate;
 
@@ -73,7 +74,8 @@ public class ExchangeRateDAO {
         } catch (SQLException e) {
             // Код ошибки 19 в SQLite - нарушение UNIQUE (если пара валют уже есть)
             if(e.getErrorCode() == 19) {
-                throw new RuntimeException("Обменный курс для данной пары уже сущестует", e);
+                throw new ExchangeRateAlreadyExistsException(
+                        "Обменный курс для данной пары уже сущестует");
             }
             throw new RuntimeException("Ошибка базы данных", e);
         }
@@ -86,7 +88,7 @@ public class ExchangeRateDAO {
         final String getById = """
                 SELECT er.id, er.rate,
                 bc.id AS base_id, bc.code AS base_code, bc.fullName AS base_name, bc.sign AS base_sign,
-                tc.id AS target_id, tc.code AS target_code, tc.fullName AS target_name, tc.sign AS target.sign 
+                tc.id AS target_id, tc.code AS target_code, tc.fullName AS target_name, tc.sign AS target_sign
                 FROM exchange_rates er
                 JOIN currencies bc ON er.baseCurrencyId = bc.id
                 JOIN currencies tc ON er.targetCurrencyId = tc.id

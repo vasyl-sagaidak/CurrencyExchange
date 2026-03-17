@@ -23,7 +23,7 @@ public class CurrencyServlet extends HttpServlet {
     public void init() {
         ServletContext context = getServletContext();
         this.currencyService = (CurrencyService) context.getAttribute(
-                "сurrencyService");
+                "currencyService");
     }
 
     @Override
