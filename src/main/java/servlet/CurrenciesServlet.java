@@ -42,8 +42,8 @@ public class CurrenciesServlet extends HttpServlet {
 
         } catch (Exception e) {
             // 4. Обработка ошибки 500 (БД недоступна итд).
-            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            resp.getWriter().write("{\"message\": \"Internal server error: " + e.getMessage() + "\"}");
+            ServletUtil.sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    "Internal server error: " + e.getMessage());
         }
     }
 

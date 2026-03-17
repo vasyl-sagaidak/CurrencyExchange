@@ -8,6 +8,7 @@ import mapper.ExchangeRateMapper;
 import model.Currency;
 import model.ExchangeRate;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class ExchangeRateService {
@@ -33,7 +34,7 @@ public class ExchangeRateService {
                 .orElse(null);
     }
 
-    public ExchangeRateDTO add(String baseCode, String targetCode, double rate) {
+    public ExchangeRateDTO add(String baseCode, String targetCode, BigDecimal rate) {
         // 1. Достаем полные обьекты валют из БД по их кодам
         Currency base = currencyDAO.getCurrencyByCode(baseCode);
         Currency target = currencyDAO.getCurrencyByCode(targetCode);
@@ -50,8 +51,8 @@ public class ExchangeRateService {
         return ExchangeRateMapper.toDto(exchangeRateDAO.add(entity));
     }
 
-    public ExchangeRateDTO patchByPairCodes(String baseCode, String targetCode, double newRate) {
-        if (newRate <= 0) {
+    public ExchangeRateDTO patchByPairCodes(String baseCode, String targetCode, BigDecimal newRate) {
+        if (newRate == null || newRate.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("Rate should be positive number");
         }
         ExchangeRate pair = ExchangeRateMapper.toEntity(getRateByCodes(baseCode, targetCode));

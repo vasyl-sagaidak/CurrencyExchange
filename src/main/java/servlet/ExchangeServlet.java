@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import service.ExchangeService;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 @WebServlet("/api/exchange")
 public class ExchangeServlet extends HttpServlet {
@@ -41,7 +42,7 @@ public class ExchangeServlet extends HttpServlet {
         }
 
         try {
-            double amount = Double.parseDouble(amountStr);
+            BigDecimal amount = new BigDecimal(amountStr);
 
             // 3. Вызываем сервис для расчета по 3 сценариям
             ExchangeDTO result = exchangeService.exchange(from.toUpperCase(), to.toUpperCase(), amount);

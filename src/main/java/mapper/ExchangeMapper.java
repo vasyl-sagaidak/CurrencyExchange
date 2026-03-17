@@ -3,14 +3,17 @@ package mapper;
 import dto.ExchangeDTO;
 import model.ExchangeRate;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public final class ExchangeMapper {
 
     private ExchangeMapper() {
     }
 
-    public static ExchangeDTO toDto(ExchangeRate entity, double sum, double convertedAmount) {
+    public static ExchangeDTO toDto(ExchangeRate entity, BigDecimal sum, BigDecimal convertedAmount) {
         if (entity == null) return null;
-        double rate = entity.getRate();
+        BigDecimal rate = entity.getRate();
 
         return new ExchangeDTO(
                 entity.getId(),
@@ -22,8 +25,11 @@ public final class ExchangeMapper {
         );
     }
 
-    private static double round(double value, int places) {
-        double scale = Math.pow(10, places);
-        return Math.round(value * scale) / scale;
+    private static BigDecimal round(BigDecimal value, int places) {
+        if (value == null) return null;
+
+        // setScale устанавливает количество знаков после запятой
+        // RoundingMode.HALF_UP — это стандартное математическое округление (от 5 вверх)
+        return value.setScale(places, RoundingMode.HALF_UP);
     }
 }

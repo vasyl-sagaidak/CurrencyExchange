@@ -3,6 +3,7 @@ package dao;
 import model.Currency;
 import model.ExchangeRate;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -53,7 +54,7 @@ public class ExchangeRateDAO {
                 PreparedStatement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setInt(1, exchangeRate.getBaseCurrency().getId());
             preparedStatement.setInt(2, exchangeRate.getTargetCurrency().getId());
-            preparedStatement.setDouble(3, exchangeRate.getRate());
+            preparedStatement.setBigDecimal(3, exchangeRate.getRate());
             preparedStatement.executeUpdate();
             try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
@@ -104,10 +105,10 @@ public class ExchangeRateDAO {
         return null;
     }
 
-    public ExchangeRate update(int id, double rate) {
+    public ExchangeRate update(int id, BigDecimal rate) {
         final String updateRate = "UPDATE exchange_rates SET Rate = ? WHERE Id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateRate)) {
-                preparedStatement.setDouble(1, rate);
+                preparedStatement.setBigDecimal(1, rate);
                 preparedStatement.setInt(2, id);
             int updatedRows = preparedStatement.executeUpdate();
             if (updatedRows == 0) {
@@ -144,7 +145,7 @@ public class ExchangeRateDAO {
                 resultSet.getInt("id"),
                 base,
                 target,
-                resultSet.getDouble("rate")
+                resultSet.getBigDecimal("rate")
         );
     }
 }

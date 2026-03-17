@@ -6,6 +6,8 @@ import exception.NegativeExchangeAmountException;
 import mapper.ExchangeMapper;
 import model.ExchangeRate;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 public class ExchangeService {
@@ -16,29 +18,30 @@ public class ExchangeService {
         this.exchangeRateDAO = exchangeRateDAO;
     }
 
-    public ExchangeDTO exchange(String baseCode, String targetCode, double sum) {
-        if (sum < 0) {
+    public ExchangeDTO exchange(String baseCode, String targetCode, BigDecimal sum) {
+        if (sum == null || sum.compareTo(BigDecimal.ZERO) < 0) {
             throw new NegativeExchangeAmountException(
                     "Сумма для обмена должна быть представлена положительным числом.");
         }
 
         ExchangeRate direct = getMatch(baseCode, targetCode);
         if (direct != null) {
-            return ExchangeMapper.toDto(direct, sum, sum * direct.getRate());
+            BigDecimal convertedAmount = sum.multiply(direct.getRate());
+            return ExchangeMapper.toDto(direct, sum, convertedAmount);
 
         }
 
         ExchangeRate reverse = getMatch(targetCode, baseCode);
         if (reverse != null) {
-            double rate = 1.0 / reverse.getRate();
+            BigDecimal rate = BigDecimal.ONE.divide(reverse.getRate(), 4, RoundingMode.HALF_UP);
             ExchangeRate virtual =
                     new ExchangeRate(0, reverse.getBaseCurrency(), reverse.getTargetCurrency(), rate);
-            return ExchangeMapper.toDto(virtual, sum, sum * rate);
+            return ExchangeMapper.toDto(virtual, sum, sum.multiply(rate));
 
         } else {
 
             ExchangeRate cross = throughUsdMatch(baseCode, targetCode);
-            return ExchangeMapper.toDto(cross, sum, sum * cross.getRate());
+            return ExchangeMapper.toDto(cross, sum, sum.multiply(cross.getRate()));
         }
 
     }
@@ -66,7 +69,7 @@ public class ExchangeService {
                                 && r.getTargetCurrency().getCode().equalsIgnoreCase(targetCode))
                 .findFirst().orElseThrow(() -> new RuntimeException("Нет пары USD/" + targetCode));
 
-        double newRate = usdToTarget.getRate() / usdToBase.getRate();
+        BigDecimal newRate = usdToTarget.getRate().divide(usdToBase.getRate(), 4, RoundingMode.HALF_UP);
 
         return new ExchangeRate(
                 0,

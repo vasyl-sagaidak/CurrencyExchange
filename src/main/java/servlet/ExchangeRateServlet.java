@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import service.ExchangeRateService;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 @WebServlet("/api/exchangeRate/*")
 public class ExchangeRateServlet extends HttpServlet {
@@ -109,10 +110,22 @@ public class ExchangeRateServlet extends HttpServlet {
             return;
         }
 
-        double newRate;
+        String cleanRateNum = rateParam.replace("rate=", "").trim();
+
+        if (cleanRateNum.isEmpty()) {
+            throw new NumberFormatException("Пустой курс");
+        }
+
+        BigDecimal newRate;
 
         try {
-            newRate = Double.parseDouble(rateParam.replace("rate=", ""));
+            newRate = new BigDecimal(cleanRateNum);
+
+            // Валидация: курс не может быть отрицательным или нулем
+            if (newRate.compareTo(BigDecimal.ZERO) < 0) {
+                ServletUtil.sendError(resp, HttpServletResponse.SC_BAD_REQUEST,
+                        "Курс должен быть положительным числом");
+            }
         } catch (NumberFormatException e) {
             ServletUtil.sendError(resp, HttpServletResponse.SC_BAD_REQUEST,
                     "Некорректное значение курса");

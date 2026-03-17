@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import service.ExchangeRateService;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 @WebServlet("/api/exchangeRates")
@@ -62,7 +63,7 @@ public class ExchangeRatesServlet extends HttpServlet {
         }
 
         try {
-            double rate = Double.parseDouble(rateStr);
+            BigDecimal rate = new BigDecimal(rateStr);
 
             // 3. Пытаемся добавить курс через сервис
             // Сервис внутри должен проверить наличие валют и уникальность пары
