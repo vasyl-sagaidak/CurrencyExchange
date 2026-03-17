@@ -9,7 +9,7 @@ import jakarta.servlet.annotation.WebFilter;
 
 import java.io.IOException;
 
-@WebFilter("/*")
+@WebFilter("/api/*")
 public class CharsetFilter implements Filter {
 
     @Override

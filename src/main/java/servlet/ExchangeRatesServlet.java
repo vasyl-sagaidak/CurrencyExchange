@@ -15,7 +15,7 @@ import service.ExchangeRateService;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/exchangeRates")
+@WebServlet("/api/exchangeRates")
 public class ExchangeRatesServlet extends HttpServlet {
     private final Gson gson = new Gson();
     ExchangeRateService exchangeRateService;

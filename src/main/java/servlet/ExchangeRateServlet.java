@@ -13,7 +13,7 @@ import service.ExchangeRateService;
 
 import java.io.IOException;
 
-@WebServlet("/exchangeRate/*")
+@WebServlet("/api/exchangeRate/*")
 public class ExchangeRateServlet extends HttpServlet {
     private ExchangeRateService exchangeRateService;
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();

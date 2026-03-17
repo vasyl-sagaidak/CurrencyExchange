@@ -13,7 +13,7 @@ import service.ExchangeService;
 
 import java.io.IOException;
 
-@WebServlet("/exchange")
+@WebServlet("/api/exchange")
 public class ExchangeServlet extends HttpServlet {
     private ExchangeService exchangeService;
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();

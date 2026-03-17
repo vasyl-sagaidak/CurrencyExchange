@@ -13,7 +13,7 @@ import service.CurrencyService;
 
 import java.io.IOException;
 
-@WebServlet("/currency/*")
+@WebServlet("/api/currency/*")
 public class CurrencyServlet extends HttpServlet {
 
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
