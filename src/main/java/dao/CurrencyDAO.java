@@ -46,23 +46,27 @@ public class CurrencyDAO {
 
     // GET /currency/EUR
     public Currency getCurrencyByCode(String code) {
-        final String sql = "SELECT (Id, Code, fullName, Sign) FROM currencies WHERE Code = ?";
+        final String sql = "SELECT Id, Code, fullName, Sign FROM currencies WHERE Code = ?";
+
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, code);
+
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                while(resultSet.next()) {
+                if (resultSet.next()) {
                     return new Currency(
                             resultSet.getInt("Id"),
                             resultSet.getString("Code"),
-                            resultSet.getString("FullName"),
+                            resultSet.getString("fullName"),
                             resultSet.getString("Sign")
                     );
                 }
             }
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new RuntimeException("Ошибка при поиске валюты по коду " + code, e);
+
         }
-        throw new CurrencyNotFoundException("Валюта не найдена.");
+        return null;
     }
 
     // POST /currencies

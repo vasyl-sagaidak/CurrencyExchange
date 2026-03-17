@@ -3,6 +3,7 @@ package service;
 import dao.CurrencyDAO;
 import dao.ExchangeRateDAO;
 import dto.ExchangeRateDTO;
+import exception.CurrencyNotFoundException;
 import exception.EntityNotFoundException;
 import mapper.ExchangeRateMapper;
 import model.Currency;
@@ -41,7 +42,7 @@ public class ExchangeRateService {
 
         // 2. Если их нет - это 404 (бросаем исключение)
         if (base == null || target == null) {
-            throw new EntityNotFoundException("Валюта не найдена");
+            throw new CurrencyNotFoundException("Валюта не найдена");
         }
 
         // 3. Теперь у нас есть обьекты с правильным ID. Создаем Entity курса.
