@@ -73,8 +73,6 @@ public class ExchangeRateServlet extends HttpServlet {
             }
 
             // 4. Успех 200
-            resp.setContentType("application/json");
-            resp.setCharacterEncoding("UTF-8");
             gson.toJson(rate, resp.getWriter());
 
         } catch (Exception e) {
@@ -133,8 +131,6 @@ public class ExchangeRateServlet extends HttpServlet {
             }
 
             // 5. Успех 200
-            resp.setContentType("application/json");
-            resp.setCharacterEncoding("UTF-8");
             gson.toJson(updatedRate, resp.getWriter());
 
         } catch (Exception e) {

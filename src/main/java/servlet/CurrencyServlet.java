@@ -22,7 +22,8 @@ public class CurrencyServlet extends HttpServlet {
     @Override
     public void init() {
         ServletContext context = getServletContext();
-        this.currencyService = (CurrencyService) context.getAttribute("сurrencyService");
+        this.currencyService = (CurrencyService) context.getAttribute(
+                "сurrencyService");
     }
 
     @Override
@@ -32,7 +33,8 @@ public class CurrencyServlet extends HttpServlet {
 
         // 1. Проверка на 400 (код отсутствует)
         if (pathInfo == null || pathInfo.equals("/")) {
-            ServletUtil.sendError(resp, HttpServletResponse.SC_BAD_REQUEST, "Код валюты отсутствует в адресе");
+            ServletUtil.sendError(resp, HttpServletResponse.SC_BAD_REQUEST,
+                    "Код валюты отсутствует в адресе");
             return;
         }
 
@@ -45,18 +47,18 @@ public class CurrencyServlet extends HttpServlet {
 
             // 3. Проверка на 404 (не найдена)
             if (currency == null) {
-                ServletUtil.sendError(resp, HttpServletResponse.SC_NOT_FOUND, "Валюта не найдена");
+                ServletUtil.sendError(resp, HttpServletResponse.SC_NOT_FOUND,
+                        "Валюта не найдена");
                 return;
             }
 
             // 4. Успех 200
-            resp.setContentType("application/json");
-            resp.setCharacterEncoding("UTF-8");
             gson.toJson(currency, resp.getWriter());
 
         } catch (Exception e) {
             // 5. Ошибка 500
-            ServletUtil.sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Ошибка базы данных");
+            ServletUtil.sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    "Ошибка базы данных");
         }
     }
 

@@ -23,7 +23,8 @@ public class ExchangeRatesServlet extends HttpServlet {
     @Override
     public void init() {
         ServletContext context = getServletContext();
-        this.exchangeRateService = (ExchangeRateService) context.getAttribute("exchangeRateService");
+        this.exchangeRateService = (ExchangeRateService) context.getAttribute(
+                "exchangeRateService");
     }
 
     @Override
@@ -34,8 +35,6 @@ public class ExchangeRatesServlet extends HttpServlet {
             List<ExchangeRateDTO> allRates = exchangeRateService.getAllRates();
 
             // 2. Настраиваем заголовки
-            resp.setContentType("application/json");
-            resp.setCharacterEncoding("UTF-8");
             resp.setStatus(HttpServletResponse.SC_OK); // 200
 
             // 3. Отправляем список в формате JSON
@@ -71,8 +70,6 @@ public class ExchangeRatesServlet extends HttpServlet {
 
             // 4. Успех - 201 Created
             resp.setStatus(HttpServletResponse.SC_CREATED);
-            resp.setContentType("application/json");
-            resp.setCharacterEncoding("UTF-8");
             gson.toJson(savedRate, resp.getWriter());
 
         } catch (NumberFormatException e) {

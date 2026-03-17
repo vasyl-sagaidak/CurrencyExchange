@@ -35,8 +35,6 @@ public class CurrenciesServlet extends HttpServlet {
             List<CurrencyDTO> currencies = currencyService.getCurrencies();
 
             // 2. Настраиваем ответ
-            resp.setContentType("application/json");
-            resp.setCharacterEncoding("UTF-8");
             resp.setStatus(HttpServletResponse.SC_OK); // 200
 
             // 3. Сериализуем список в JSON прямо в поток ответа
@@ -74,8 +72,6 @@ public class CurrenciesServlet extends HttpServlet {
 
             // 5. Успех - 201 Created
             resp.setStatus(HttpServletResponse.SC_CREATED);
-            resp.setContentType("application/json");
-            resp.setCharacterEncoding("UTF-8");
             gson.toJson(savedCurrencyDto, resp.getWriter());
 
         } catch (CurrencyAlreadyExistsException e) {

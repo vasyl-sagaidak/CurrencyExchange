@@ -47,8 +47,6 @@ public class ExchangeServlet extends HttpServlet {
             ExchangeDTO result = exchangeService.exchange(from.toUpperCase(), to.toUpperCase(), amount);
 
             // 4. Успех 200
-            resp.setContentType("application/json");
-            resp.setCharacterEncoding("UTF-8");
             gson.toJson(result, resp.getWriter());
 
         } catch (NumberFormatException e) {
