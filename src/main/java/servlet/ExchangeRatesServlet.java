@@ -19,7 +19,7 @@ import java.util.List;
 @WebServlet("/api/exchangeRates")
 public class ExchangeRatesServlet extends HttpServlet {
     private final Gson gson = new Gson();
-    ExchangeRateService exchangeRateService;
+    private ExchangeRateService exchangeRateService;
 
     @Override
     public void init() {

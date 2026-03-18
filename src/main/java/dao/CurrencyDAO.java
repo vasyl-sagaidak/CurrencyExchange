@@ -1,7 +1,5 @@
 package dao;
 
-import dto.CurrencyDTO;
-import exception.CurrencyNotFoundException;
 import model.Currency;
 
 import java.sql.Connection;
@@ -19,7 +17,6 @@ public class CurrencyDAO {
         this.connection = connection;
     }
 
-    // GET /currencies
     public List<Currency> getAll() {
 
         List<Currency> currencies = new ArrayList<>();
@@ -44,7 +41,6 @@ public class CurrencyDAO {
         return currencies;
     }
 
-    // GET /currency/EUR
     public Currency getCurrencyByCode(String code) {
         final String sql = "SELECT Id, Code, fullName, Sign FROM currencies WHERE Code = ?";
 
@@ -69,7 +65,6 @@ public class CurrencyDAO {
         return null;
     }
 
-    // POST /currencies
     public Currency addCurrency(Currency currency) {
         final String sql = "INSERT INTO currencies (code, fullName, sign) VALUES (?, ?, ?)";
 

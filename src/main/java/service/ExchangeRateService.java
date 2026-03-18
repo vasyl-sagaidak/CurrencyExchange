@@ -4,7 +4,6 @@ import dao.CurrencyDAO;
 import dao.ExchangeRateDAO;
 import dto.ExchangeRateDTO;
 import exception.CurrencyNotFoundException;
-import exception.EntityNotFoundException;
 import mapper.ExchangeRateMapper;
 import model.Currency;
 import model.ExchangeRate;

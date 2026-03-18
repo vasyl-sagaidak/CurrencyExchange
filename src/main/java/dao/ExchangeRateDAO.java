@@ -19,7 +19,6 @@ public class ExchangeRateDAO {
         this.connection = connection;
     }
 
-    // GET /exchangeRates
     public List<ExchangeRate> getAll() {
         List<ExchangeRate> exchangeRates = new ArrayList<>();
         final String getAll = """
@@ -47,7 +46,6 @@ public class ExchangeRateDAO {
         return exchangeRates;
     }
 
-    // POST /exchangeRates
     public ExchangeRate add(ExchangeRate exchangeRate) {
         final String insert = "INSERT INTO exchange_rates " +
                 "(BaseCurrencyId, TargetCurrencyId, Rate) VALUES (?, ?, ?)";
